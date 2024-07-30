@@ -5,9 +5,11 @@
     "description": "turns heightmaps into mesh objects",
     "unity": "2019.1",
     "unityRelease": "0b5",
-    "changelogUrl": "https://example.com/changelog.html",
-    "licensesUrl": "https://example.com/licensing.html",
-    "dependencies": {   },
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/MaggieAlAmaro/heightmap2mesh.git" 
+    },
    "keywords": [
       "mesh",
       "terrain",
@@ -18,6 +20,14 @@
       "email": "unity@example.com",
       "url": "https://www.unity3d.com"
     },
+    "files": [
+      "*.md",
+      "*.meta",
+      "*.asmdef",
+      "Samples~",
+      "Editor",
+      "Runtime"
+    ],
 
     "samples": [
         {

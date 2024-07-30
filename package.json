@@ -3,13 +3,9 @@
     "version": "1.0.0",
     "displayName": "Heightmap2Mesh",
     "description": "turns heightmaps into mesh objects",
-    "unity": "2019.1",
-    "unityRelease": "0b5",
+    "unity": "2021.3",
+    "unityRelease": "27f1",
     "license": "MIT",
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/MaggieAlAmaro/heightmap2mesh.git" 
-    },
    "keywords": [
       "mesh",
       "terrain",

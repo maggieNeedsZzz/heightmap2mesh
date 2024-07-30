@@ -20,20 +20,11 @@
       "email": "unity@example.com",
       "url": "https://www.unity3d.com"
     },
-    "files": [
-      "*.md",
-      "*.meta",
-      "*.asmdef",
-      "Samples~",
-      "Editor",
-      "Runtime"
-    ],
-
     "samples": [
         {
             "displayName": "Example Scene",
             "description": "Contains example scene of the terrain mesh created from heightmap",
-            "path": "Samples~/ExampleScene"
+            "path": "Samples/ExampleScene"
         } 
     ]
     

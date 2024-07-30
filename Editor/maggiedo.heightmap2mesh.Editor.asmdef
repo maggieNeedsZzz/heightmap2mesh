@@ -1,0 +1,16 @@
+{
+    "name": "maggiedo.heightmap2mesh.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b7aab56dc017c4c4788cc496186aeec6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

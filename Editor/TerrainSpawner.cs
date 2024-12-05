@@ -26,10 +26,11 @@ public class TerrainSpawner : EditorWindow
         GetWindow(typeof(TerrainSpawner));
     }
 
-    public static readonly GUIContent selectHeightmap = EditorGUIUtility.TrTextContent("Select Heightmap", "Select heightmap image to create terrain.");
+    public static readonly GUIContent selectHeightmap = EditorGUIUtility.TrTextContent("Select Heightmap", "Select a heightmap image to create terrain. Must be in Alpha8 format.");
     public static readonly GUIContent setVertexDistance = EditorGUIUtility.TrTextContent("Vertex Distance", "Set distance between mesh verteces. Should mash the resolution of the heightmap in m/pixel.");
-    public static readonly GUIContent setChunkDivision = EditorGUIUtility.TrTextContent("Chunk Division", "Set the number of times the terrain will be devided. It must be so that each chunk is at most 256x256 pixels.");
-    public static readonly GUIContent selectTexture= EditorGUIUtility.TrTextContent("Select Texture", "Select a texture for the terrain.");
+    // TODO change setChunkDivision to number of chunks to create instead of chunk resolution
+    public static readonly GUIContent setChunkDivision = EditorGUIUtility.TrTextContent("Chunk Resolution", "Set the resolution of a terrain chunk. This value can be at most 256, and should be a power of 2. For example: If this value is 128, then each chunk will be 128x128.");
+    public static readonly GUIContent selectTexture = EditorGUIUtility.TrTextContent("(Optional) Select Texture", "Select a texture for the terrain.");
     public static readonly GUIContent[] imageType =
     {
             EditorGUIUtility.TrTextContent("Combination", "Texture in RGB channel, Elevation in A channel"),
@@ -103,10 +104,12 @@ public class TerrainSpawner : EditorWindow
         EditorGUILayout.Space(10);
         GUILayout.EndVertical();
 
-        GUILayout.BeginHorizontal();
-        VertexDistance = EditorGUILayout.IntField(setVertexDistance, VertexDistance);
-        GUILayout.FlexibleSpace();
-        GUILayout.EndHorizontal();
+        // TODO allow user to set chunk size
+        // TODO allow user to set chunk size
+        //GUILayout.BeginHorizontal();
+        //VertexDistance = EditorGUILayout.IntField(setVertexDistance, VertexDistance);
+        //GUILayout.FlexibleSpace();
+        //GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         ChunkDivision = EditorGUILayout.IntField(setChunkDivision, ChunkDivision);
         GUILayout.FlexibleSpace();
@@ -127,7 +130,7 @@ public class TerrainSpawner : EditorWindow
         GameObject newMesh = new GameObject("Terrain Mesh");
         newMesh.transform.position = new Vector3(0, 0, 0);
         newMesh.AddComponent<TerrainMesh>();
-        newMesh.GetComponent<TerrainMesh>().SetVariableFields(heightmap, texture , ChunkDivision);
+        newMesh.GetComponent<TerrainMesh>().SetVariableFields(heightmap, texture, ChunkDivision);
         newMesh.GetComponent<TerrainMesh>().CreateTerrain();
     }
 
@@ -145,7 +148,7 @@ public class TerrainSpawner : EditorWindow
         if (File.Exists(filePath))
         {
             fileData = File.ReadAllBytes(filePath);
-            tex = new Texture2D(1, 1,TextureFormat.Alpha8,false);
+            tex = new Texture2D(1, 1, TextureFormat.Alpha8, false);
             tex.LoadImage(fileData); //WILL LOAD IN ARGB MODE 32 BIT!!!!!
         }
         return tex;
@@ -153,7 +156,7 @@ public class TerrainSpawner : EditorWindow
 
     public void SaveToFile()
     {
-        string path = EditorUtility.SaveFilePanel("Import terrain Heightmap", "", "MyTerrain","png");
+        string path = EditorUtility.SaveFilePanel("Import terrain Heightmap", "", "MyTerrain", "png");
         if (path.Length != 0)
         {
             var fileContent = File.ReadAllBytes(path);

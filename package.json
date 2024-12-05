@@ -1,28 +1,26 @@
 {
-    "name": "com.maggiedo.heightmap2mesh",
-    "version": "1.0.0",
-    "displayName": "Heightmap2Mesh",
-    "description": "turns heightmaps into mesh objects",
-    "unity": "2021.3",
-    "unityRelease": "27f1",
-    "license": "MIT",
-   "keywords": [
-      "mesh",
-      "terrain",
-      "heightmap"
-    ],
-    "author": {
-      "name": "Maggie Do",
-      "email": "unity@example.com",
-      "url": "https://www.unity3d.com"
-    },
-    "samples": [
-        {
-            "displayName": "Example Scene",
-            "description": "Contains example scene of the terrain mesh created from heightmap",
-            "path": "Samples~/ExampleScene"
-        } 
-    ]
-    
+  "name": "com.maggieneedszzz.heightmap2mesh",
+  "version": "1.0.1",
+  "displayName": "Heightmap2Mesh",
+  "description": "Generates terrain meshes from heightmap images.",
+  "unity": "2021.3",
+  "unityRelease": "27f1",
+  "license": "MIT",
+  "keywords": [
+    "mesh",
+    "terrain",
+    "heightmap"
+  ],
+  "author": {
+    "name": "Maggie Amaro"
+  },
+  "samples": [
+    {
+      "displayName": "Example Scene",
+      "description": "Contains an example scene of the terrain mesh created from a heightmap.",
+      "path": "Samples~/ExampleScene"
+    }
+  ]
+
 }
   

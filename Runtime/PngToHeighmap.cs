@@ -5,7 +5,7 @@ using System.Linq;
 
 
 
-
+// Scales values of an image via a function
 class ImageScaler 
 {
     //Value will be between 0 and 1

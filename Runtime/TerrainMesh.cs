@@ -17,8 +17,7 @@ public class TerrainMesh : MonoBehaviour
     private int gridSize = 30;
 
 
-    private List<GameObject> chunkss;
-    private GameObject[,] terrainObjs;
+    private List<GameObject> chunksObjectList;
     //private int chunkExtra;
     private int chunkRows;
     private int chunks;
@@ -41,7 +40,8 @@ public class TerrainMesh : MonoBehaviour
     {
         heightmap = _heightmap;
         texture = _texture;
-        //altTexture = _texture;
+        altTexture = null;
+        alphaTexture = null; 
         chunkSize = _chunkSize;
         canToggleTexture = false;
         showTexture = true;
@@ -56,8 +56,8 @@ public class TerrainMesh : MonoBehaviour
             texture = new HeightmapTexture(texture).texture;
         altTexture = texture;
         canToggleTexture = true;
-        for (int c = 0; c < chunkss.Count; c++)
-            chunkss[c].GetComponent<MeshRenderer>().sharedMaterial.mainTexture = texture;
+        for (int c = 0; c < chunksObjectList.Count; c++)
+            chunksObjectList[c].GetComponent<MeshRenderer>().sharedMaterial.mainTexture = texture;
     }
 
     public void ToggleTexture(bool enableTexture)
@@ -75,22 +75,26 @@ public class TerrainMesh : MonoBehaviour
     private void SetHeightAndTexture()
     {
 
-
-        Debug.Log("Heightmap format: " + heightmap.format);
-        if (heightmap.format == TextureFormat.RGBA32)
+        if (heightmap == null)
         {
-            Debug.Log("RGABA??");
-            heightData = new HeightData(heightmap);
-            CombinationTexture tempTex = new CombinationTexture(heightmap);
-
-            alphaTexture = tempTex.aTexture;
-            altTexture = tempTex.rgbTexture;
-            texture = altTexture;
-
-            canToggleTexture = true;
-            //TODO
+            Debug.LogWarning("Please insert a heightmap image.");
+            return;
         }
-        else if (heightmap.format == TextureFormat.Alpha8)
+
+        // TODO
+        // Support for combination images (RGB + A)
+        //if (heightmap.format == TextureFormat.RGBA32)
+        //{
+        //    heightData = new HeightData(heightmap);
+        //    CombinationTexture tempTex = new CombinationTexture(heightmap);
+        //
+        //    alphaTexture = tempTex.aTexture;
+        //    altTexture = tempTex.rgbTexture;
+        //    texture = altTexture;
+        //
+        //    canToggleTexture = true;
+        //} else
+        if (heightmap.format == TextureFormat.Alpha8)
         {
             heightData = new HeightData(heightmap);
             alphaTexture = new HeightmapTexture(heightmap).texture;
@@ -115,18 +119,23 @@ public class TerrainMesh : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Image format not recognized. Heightmap texture must be in Alpha8 format OR.");
+            Debug.LogError("Image format not recognized. Heightmap texture must be in Alpha8 format."); // OR RGBA32 Format for Combination Image
         }
     }
 
     public void CreateTerrain()
     {
-        chunkss = new List<GameObject>();
+        if (heightmap == null)
+        {
+            Debug.LogWarning("Please insert a heightmap image.");
+            return;
+        }
+
+        chunksObjectList = new List<GameObject>();
         SetHeightAndTexture();
 
         height = heightmap.height;
         width = heightmap.width;
-
 
         //ASSUMES height == width
         if (chunkSize > 256)
@@ -138,7 +147,6 @@ public class TerrainMesh : MonoBehaviour
         chunks = (int)Mathf.Pow(chunkRows, 2.0f);
 
         SplitIntoMeshChunks();
-        //SplitIntoChunksWithoutGap();
 
     }
     public void SplitIntoMeshChunks()
@@ -147,11 +155,8 @@ public class TerrainMesh : MonoBehaviour
         float[,] initialArray = heightData.elevation;
 
         float[,][,] chunks = SplitArray(initialArray, chunkSize);
-        int totalChunksPerColumn = chunks.GetLength(0); // Note: height is the first dimension
-        int totalChunksPerRow = chunks.GetLength(1); // Note: width is the second dimension
-
-
-
+        int totalChunksPerColumn = chunks.GetLength(0); // Note: height is the first dim
+        int totalChunksPerRow = chunks.GetLength(1); // Note: width is the second dim
 
 
         for (int row = 0; row < totalChunksPerColumn; row++)
@@ -168,7 +173,7 @@ public class TerrainMesh : MonoBehaviour
                 Mesh mesh = meshGenerator.GetMesh();
 
                 GameObject meshObject = GenerateMeshObject($"Chunk_{row}_{col}");
-                chunkss.Add(meshObject);
+                chunksObjectList.Add(meshObject);
                 meshObject.GetComponent<MeshFilter>().mesh = mesh;
                 MeshRenderer meshRenderer = meshObject.GetComponent<MeshRenderer>();
                 meshRenderer.sharedMaterial = new Material(Shader.Find("Standard"));
@@ -268,7 +273,6 @@ public class TerrainMesh : MonoBehaviour
         newMesh.AddComponent<MeshFilter>();
         newMesh.AddComponent<MeshRenderer>();
         newMesh.transform.parent = this.transform;
-        //terrainObjs[currentTerrainIdx++] = newMesh;
         return newMesh;
     }
 }
